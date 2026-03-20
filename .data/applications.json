@@ -1,0 +1,190 @@
+{
+  "applications": [
+    {
+      "id": "app_1773603853419",
+      "status": "pending",
+      "createdAt": "2026-03-15T19:44:13.419Z",
+      "updatedAt": "2026-03-15T19:44:13.419Z",
+      "sortOrder": 0,
+      "fullName": "Cassidy",
+      "email": "Burns",
+      "phone": "123-456-7890",
+      "city": "Bloomington, IN.",
+      "salonName": "Luxe Hair Studio",
+      "yearsExperience": "14",
+      "license": "Indiana Licensed Cosmetologist",
+      "licenseUrl": "https://res.cloudinary.com/dftcbr3um/image/upload/v1773602909/stylegrades/licenses/kzdmhlrtupya9vlexoeg.pdf",
+      "specialties": [
+        "Balayage",
+        "Curly hair",
+        "Extensions"
+      ],
+      "instagram": "",
+      "website": "",
+      "tierRequested": "pro",
+      "bio": "With 14 years of experience, I specialize in all hair types, with a passion for bringing your vision to life through precision cuts and custom color. My goal is to build your confidence and make you feel beautiful. Come sit in my chair!",
+      "photoUrl": "https://res.cloudinary.com/dftcbr3um/image/upload/v1773603630/stylegrades/stylists/headshots/o5x1tbmbzo9xueq60lyo.jpg",
+      "gallery": [
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1773603652/stylegrades/stylists/work/m7pepflgl7yrg8b738nb.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1773603653/stylegrades/stylists/work/nsblttqnu9pnbgwghfxw.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1773603653/stylegrades/stylists/work/x00xuasbop21nimyz5gm.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1773603836/stylegrades/stylists/work/f58lzehpwrshdaiqih3t.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1773603837/stylegrades/stylists/work/zfose7xwjpxigvlgy0us.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1773603838/stylegrades/stylists/work/igwx056jasmhnv589oqr.jpg"
+      ],
+      "photoLinks": []
+    },
+    {
+      "id": "app_1769987384599",
+      "status": "approved",
+      "createdAt": "2026-02-01T23:09:44.599Z",
+      "fullName": "Abigail Ramirez",
+      "email": "abbi@mail.com",
+      "phone": "",
+      "city": "Oak Brook, IL.",
+      "specialties": [
+        "Color",
+        "Curly Hair",
+        "Updos"
+      ],
+      "instagram": "",
+      "website": "",
+      "tierRequested": "premium",
+      "notes": "Best of the Region 2023, 2024, 2025",
+      "photoUrl": "https://res.cloudinary.com/dftcbr3um/image/upload/v1769985718/stylegrades/stylists/headshots/okcsdoxbvm9illag7ti8.jpg",
+      "gallery": [
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1769985724/stylegrades/stylists/work/ftpaw9ve6ysvg6wmd5ux.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1769985725/stylegrades/stylists/work/d8rwv7hrn11typvhgrmb.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1769985726/stylegrades/stylists/work/grlh6jyrlakgc7jf8b5e.jpg"
+      ],
+      "photoLinks": [],
+      "approvedAt": "2026-02-02T14:39:32.209Z",
+      "updatedAt": "2026-02-02T14:39:32.210Z"
+    },
+    {
+      "id": "seed_ava_lee",
+      "status": "approved",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "approvedAt": "2026-01-01T00:00:00.000Z",
+      "fullName": "Ava Lee",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60601",
+      "specialties": [
+        "Balayage",
+        "Highlights",
+        "Lived-in Color"
+      ],
+      "photoUrl": "https://res.cloudinary.com/dftcbr3um/image/upload/v1772120945/stylegrades/stylists/f06cmpaintamdoleifu5.jpg",
+      "gallery": [
+        "/assets/gallery/ava-work1.jpg",
+        "/assets/gallery/ava-work2.jpg",
+        "/assets/gallery/ava-work3.jpg",
+        "/assets/gallery/ava-work4.jpg",
+        "/assets/gallery/ava-work5.jpg"
+      ],
+      "featured": true,
+      "tierRequested": "premium",
+      "updatedAt": "2026-02-23T01:28:47.661Z"
+    },
+    {
+      "id": "seed_carlos_rivera",
+      "status": "approved",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "approvedAt": "2026-01-01T00:00:00.000Z",
+      "fullName": "Carlos Rivera",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60602",
+      "specialties": [
+        "Skin Fades",
+        "Scissor Cuts",
+        "Beard Shaping"
+      ],
+      "photoUrl": "/assets/stylists/carlos-rivera.jpg",
+      "gallery": [
+        "/assets/gallery/carlos-work1.jpg",
+        "/assets/gallery/carlos-work2.jpg",
+        "/assets/gallery/carlos-work3.jpg",
+        "/assets/gallery/carlos-work4.jpg",
+        "/assets/gallery/carlos-work5.jpg"
+      ],
+      "featured": true
+    },
+    {
+      "id": "seed_dante_brooks",
+      "status": "approved",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "approvedAt": "2026-01-01T00:00:00.000Z",
+      "fullName": "Dante Brooks",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60603",
+      "specialties": [
+        "Curly Cuts",
+        "Twist Outs",
+        "Texture Education"
+      ],
+      "photoUrl": "/assets/stylists/dante-brooks.jpg",
+      "gallery": [
+        "/assets/gallery/dante-work1.jpg",
+        "/assets/gallery/dante-work2.jpg",
+        "/assets/gallery/dante-work3.jpg",
+        "/assets/gallery/dante-work4.jpg",
+        "/assets/gallery/dante-work5.jpg",
+        "/assets/gallery/dante-work6.jpg"
+      ],
+      "featured": true
+    },
+    {
+      "id": "seed_jamie_smith",
+      "status": "approved",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "approvedAt": "2026-01-01T00:00:00.000Z",
+      "fullName": "Jamie Smith",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60604",
+      "specialties": [
+        "Color Correction",
+        "Hand-Tied Extensions",
+        "Blonding"
+      ],
+      "photoUrl": "/assets/stylists/jamie-smith.jpg",
+      "gallery": [
+        "/assets/gallery/jamie-work1.jpg",
+        "/assets/gallery/jamie-work2.jpg",
+        "/assets/gallery/jamie-work3.jpg",
+        "/assets/gallery/jamie-work4.jpg",
+        "/assets/gallery/jamie-work5.jpg",
+        "/assets/gallery/jamie-work6.jpg"
+      ],
+      "featured": true
+    },
+    {
+      "id": "seed_maya_patel",
+      "status": "approved",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "approvedAt": "2026-01-01T00:00:00.000Z",
+      "fullName": "Maya Patel",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60605",
+      "specialties": [
+        "Bridal Updos",
+        "Hollywood Waves",
+        "Event Styling"
+      ],
+      "photoUrl": "/assets/stylists/maya-patel.jpg",
+      "gallery": [
+        "/assets/gallery/maya-work1.jpg",
+        "/assets/gallery/maya-work2.jpg",
+        "/assets/gallery/maya-work3.jpg",
+        "/assets/gallery/maya-work4.jpg",
+        "/assets/gallery/maya-work5.jpg",
+        "/assets/gallery/maya-work6.jpg"
+      ],
+      "featured": false
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "applications": [
+    {
+      "id": "app_1767722419176",
+      "status": "approved",
+      "createdAt": "2026-01-06T18:00:19.176Z",
+      "fullName": "Coco Rubani",
+      "email": "coco@emailaddress.com",
+      "phone": "999-999-9999",
+      "city": "Carmel, IN.",
+      "specialties": [
+        "Perms",
+        "up-dos"
+      ],
+      "instagram": "@cocohair",
+      "website": "",
+      "photoUrl": "https://res.cloudinary.com/dftcbr3um/image/upload/v1767722416/stylegrades/stylists/headshots/wob5cxixxzkah0qigqa9.jpg",
+      "gallery": [
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1767722417/stylegrades/stylists/work/fd6xzmazl9uvpcfr91qt.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1767722417/stylegrades/stylists/work/umlnmcpa1el98hdgozi0.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1767722418/stylegrades/stylists/work/vesewmm650stuzsa1le7.jpg"
+      ],
+      "tierRequested": "pro",
+      "notes": "",
+      "approvedAt": "2026-01-06T18:01:12.720Z",
+      "verified": true
+    },
+    {
+      "id": "app_1767718688366",
+      "status": "approved",
+      "createdAt": "2026-01-06T16:58:08.366Z",
+      "fullName": "Coco Rubani",
+      "email": "coco@emailaddress.com",
+      "phone": "999-999-9999",
+      "city": "Carmel, IN.",
+      "specialties": [
+        "Perms",
+        "up-dos"
+      ],
+      "instagram": "@cocohair",
+      "website": "",
+      "photoUrl": "https://res.cloudinary.com/dftcbr3um/image/upload/v1767718685/stylegrades/stylists/headshots/nkkfxo5ag1hknw1bcmz0.jpg",
+      "gallery": [
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1767718686/stylegrades/stylists/work/xs8fwsbmw7mz7ehgmv2l.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1767718686/stylegrades/stylists/work/jn1v1gwzkp59mb5tnxja.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1767718687/stylegrades/stylists/work/acwzuap0aecue49trdic.jpg"
+      ],
+      "tierRequested": "premium",
+      "notes": "",
+      "approvedAt": "2026-01-06T16:58:47.682Z",
+      "verified": true
+    }
+  ]
+}

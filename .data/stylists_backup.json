@@ -1,0 +1,69 @@
+{
+  "stylists": [
+    {
+      "id": "sty_1770043172211",
+      "applicationId": "app_1769987384599",
+      "name": "Abigail Ramirez",
+      "fullName": "Abigail Ramirez",
+      "city": "Oak Brook, IL.",
+      "specialties": [
+        "Color",
+        "Curly Hair",
+        "Updos"
+      ],
+      "instagram": "",
+      "website": "",
+      "photoUrl": "https://res.cloudinary.com/dftcbr3um/image/upload/v1769985718/stylegrades/stylists/headshots/okcsdoxbvm9illag7ti8.jpg",
+      "gallery": [
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1769985724/stylegrades/stylists/work/ftpaw9ve6ysvg6wmd5ux.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1769985725/stylegrades/stylists/work/d8rwv7hrn11typvhgrmb.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1769985726/stylegrades/stylists/work/grlh6jyrlakgc7jf8b5e.jpg"
+      ],
+      "photoLinks": [],
+      "featured": false,
+      "sortOrder": 999999,
+      "status": "approved",
+      "tierRequested": "premium",
+      "verified": true,
+      "profileSlug": "abigail-ramirez",
+      "createdAt": "2026-02-01T23:09:44.599Z",
+      "approvedAt": "2026-02-02T14:39:32.209Z"
+    },
+    {
+      "id": "sty_1770040567003",
+      "applicationId": "app_1769987384599",
+      "fullName": "Abigail Ramirez",
+      "name": "Abigail Ramirez",
+      "profileSlug": "abigail-ramirez",
+      "email": "abbi@mail.com",
+      "phone": "",
+      "city": "Oak Brook, IL.",
+      "state": "",
+      "zip": "",
+      "specialties": [
+        "Color",
+        "Curly Hair",
+        "Updos"
+      ],
+      "instagram": "",
+      "website": "",
+      "notes": "Best of the Region 2023, 2024, 2025",
+      "photoUrl": "https://res.cloudinary.com/dftcbr3um/image/upload/v1769985718/stylegrades/stylists/headshots/okcsdoxbvm9illag7ti8.jpg",
+      "gallery": [
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1769985724/stylegrades/stylists/work/ftpaw9ve6ysvg6wmd5ux.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1769985725/stylegrades/stylists/work/d8rwv7hrn11typvhgrmb.jpg",
+        "https://res.cloudinary.com/dftcbr3um/image/upload/v1769985726/stylegrades/stylists/work/grlh6jyrlakgc7jf8b5e.jpg"
+      ],
+      "photoLinks": [],
+      "status": "approved",
+      "featured": false,
+      "sortOrder": null,
+      "tierRequested": "premium",
+      "tier": "premium",
+      "verified": true,
+      "lat": null,
+      "lng": null,
+      "createdAt": "2026-02-02T13:56:07.003Z"
+    }
+  ]
+}

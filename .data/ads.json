@@ -1,0 +1,41 @@
+{
+  "totals": {
+    "impressions": 1,
+    "clicks": 0
+  },
+  "byKey": {
+    "rail_right|brand_001|premium_products|right_d": {
+      "placement": "rail_right",
+      "advertiserId": "brand_001",
+      "campaignId": "premium_products",
+      "creativeId": "right_d",
+      "counts": {
+        "impressions": 1,
+        "clicks": 0
+      },
+      "firstSeenAt": "2026-03-15T19:29:23.609Z",
+      "lastSeenAt": "2026-03-15T19:29:23.609Z",
+      "byPage": {
+        "join": {
+          "impressions": 1,
+          "clicks": 0
+        }
+      }
+    }
+  },
+  "recent": [
+    {
+      "id": "evt_1773602963609",
+      "at": "2026-03-15T19:29:23.609Z",
+      "event": "impression",
+      "placement": "rail_right",
+      "advertiserId": "brand_001",
+      "campaignId": "premium_products",
+      "creativeId": "right_d",
+      "page": "join",
+      "route": "/join",
+      "stylistId": "rail_right_D",
+      "ref": "right_rail_D"
+    }
+  ]
+}
