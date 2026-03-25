@@ -1,15 +1,20 @@
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+
 export default async function handler(req, res) {
-  // ✅ ADD THIS (CORS)
+  // ✅ CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // ✅ Handle preflight requests
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
 
-  // ✅ KEEP your existing GET check
   if (req.method === "GET") {
     return res.status(200).json({ message: "API is working" });
   }
@@ -20,11 +25,32 @@ export default async function handler(req, res) {
 
       console.log("Application received:", data);
 
+      // ✅ INSERT INTO SUPABASE
+      const { error } = await supabase.from("stylists").insert([
+        {
+          full_name: data.fullName,
+          email: data.email,
+          phone: data.phone,
+          city: data.city,
+          status: "pending",
+        },
+      ]);
+
+      if (error) {
+        console.error("Supabase error:", error);
+        return res.status(500).json({
+          ok: false,
+          error: error.message,
+        });
+      }
+
       return res.status(200).json({
         ok: true,
-        message: "Application received successfully",
+        message: "Application saved successfully",
       });
+
     } catch (error) {
+      console.error("Server error:", error);
       return res.status(500).json({
         ok: false,
         error: "Server error",
