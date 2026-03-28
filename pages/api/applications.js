@@ -24,6 +24,7 @@ export default async function handler(req, res) {
       const data = req.body;
 
       console.log("Application received:", data);
+      console.log("FULL PAYLOAD RECEIVED:", data);
 
       // ✅ INSERT INTO SUPABASE
       const { error } = await supabase.from("stylists").insert([
@@ -31,8 +32,37 @@ export default async function handler(req, res) {
           full_name: data.fullName,
           email: data.email,
           phone: data.phone,
+
           city: data.city,
+          state: data.state,
+          zip: data.zip,
+          lat: data.lat,
+          lng: data.lng,
+
+          salon_name: data.salonName,
+          years_experience: data.yearsExperience,
+          license: data.license,
+          license_url: data.licenseUrl,
+
+          specialties: data.specialties,
+
+          instagram: data.instagram,
+          website: data.website,
+
+          tier_requested: data.tierRequested,
+          tier_active: false,
+          price: data.price,
+
+          bio: data.bio,
+
+          photo_url: data.photoUrl,
+          gallery: data.gallery,
+
+          photo_links: data.photoLinks,
+
           status: "pending",
+          verified: false,
+          featured: false,
         },
       ]);
 
