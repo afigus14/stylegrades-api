@@ -34,31 +34,37 @@ export default async function handler(req, res) {
           phone: data.phone,
 
           city: data.city,
-          state: data.state,
-          zip: data.zip,
-          lat: data.lat,
-          lng: data.lng,
+          state: data.state ?? null,
+          zip: data.zip ?? null,
 
-          salon_name: data.salonName,
-          years_experience: data.yearsExperience,
-          license: data.license,
-          license_url: data.licenseUrl,
+          lat: data.lat ?? null,
+          lng: data.lng ?? null,
 
-          specialties: data.specialties,
+          salon_name: data.salonName ?? null,
+          years_experience: data.yearsExperience ?? null,
 
-          instagram: data.instagram,
-          website: data.website,
+          // ✅ KEEP LICENSE
+          license: data.license ?? null,
+          license_url: data.licenseUrl ?? null,
 
-          tier_requested: data.tierRequested,
+          // ✅ ARRAY FIELD (text[])
+          specialties: Array.isArray(data.specialties)
+            ? data.specialties
+            : (data.specialties
+                ? data.specialties.split(",").map(s => s.trim())
+                : []),
+
+          instagram_url: data.instagram ?? null,
+          website: data.website ?? null,
+
+          tier_requested: data.tierRequested ?? "free",
           tier_active: false,
-          price: data.price,
 
-          bio: data.bio,
-
-          photo_url: data.photoUrl,
-          gallery: data.gallery,
-
-          photo_links: data.photoLinks,
+          // ✅ COMBINED PHOTOS (matches your table: photo_urls)
+          photo_urls: [
+            ...(data.photoUrl ? [data.photoUrl] : []),
+            ...(Array.isArray(data.gallery) ? data.gallery : [])
+          ],
 
           status: "pending",
           verified: false,
