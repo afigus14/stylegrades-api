@@ -54,7 +54,7 @@ export default async function handler(req, res) {
                 ? data.specialties.split(",").map(s => s.trim())
                 : []),
 
-          instagram_url: data.instagram ?? null,
+          instagram: data.instagram ?? null,
           website: data.website ?? null,
 
           tier_requested: data.tierRequested ?? "free",
