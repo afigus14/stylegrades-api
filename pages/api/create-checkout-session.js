@@ -49,8 +49,9 @@ export default async function handler(req, res) {
     });
 
     res.status(200).json({ url: session.url });
-
-  } catch (err) {
+  } 
+  
+  catch (err) {
     console.error("Stripe error:", err);
     res.status(500).json({ error: "Stripe error" });
   }
