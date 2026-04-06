@@ -1,9 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
+import { Resend } from "resend";
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
   // ✅ CORS
@@ -23,6 +26,20 @@ export default async function handler(req, res) {
     try {
       const data = req.body;
 
+      const tierMap = {
+        starter: "free",
+        signature: "pro",
+        elite: "premium",
+        free: "free",
+        pro: "pro",
+        premium: "premium"
+      };
+
+      const resolvedTier = tierMap[data.tierRequested] || "free";
+
+      console.log("Incoming tier:", data.tierRequested);
+      console.log("Resolved tier:", resolvedTier);
+
       console.log("Application received:", data);
       console.log("FULL PAYLOAD RECEIVED:", data);
 
@@ -32,6 +49,8 @@ export default async function handler(req, res) {
           full_name: data.fullName,
           email: data.email,
           phone: data.phone,
+
+           bio: data.bio ?? null,
 
           city: data.city,
           state: data.state ?? null,
@@ -43,28 +62,21 @@ export default async function handler(req, res) {
           salon_name: data.salonName ?? null,
           years_experience: data.yearsExperience ?? null,
 
-          // ✅ KEEP LICENSE
           license: data.license ?? null,
           license_url: data.licenseUrl ?? null,
 
-          // ✅ ARRAY FIELD (text[])
           specialties: Array.isArray(data.specialties)
             ? data.specialties
-            : (data.specialties
-                ? data.specialties.split(",").map(s => s.trim())
-                : []),
+            : [],
 
           instagram: data.instagram ?? null,
           website: data.website ?? null,
 
-          tier_requested: data.tierRequested ?? "free",
-          tier_active: false,
+          tier_requested: resolvedTier,
+          tier_active: resolvedTier,
 
-          // ✅ COMBINED PHOTOS (matches your table: photo_urls)
-          photo_urls: [
-            ...(data.photoUrl ? [data.photoUrl] : []),
-            ...(Array.isArray(data.gallery) ? data.gallery : [])
-          ],
+          photo_url: data.photo_url ?? null,
+          gallery: Array.isArray(data.gallery) ? data.gallery : [],
 
           status: "pending",
           verified: false,
@@ -79,6 +91,35 @@ export default async function handler(req, res) {
           error: error.message,
         });
       }
+
+      // ✅ SEND EMAIL HERE (inside handler, after insert)
+      try {
+        const emailResult = await resend.emails.send({
+          from: "onboarding@resend.dev",
+          to: "afigus14@yahoo.com",
+          subject: "New Stylist Application",
+          html: `
+            <h2>New Stylist Application</h2>
+
+            <p><strong>Name:</strong> ${data.fullName}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>City:</strong> ${data.city}</p>
+            <p><strong>Tier Requested:</strong> ${resolvedTier}</p>
+
+            <br/>
+
+            <a href="https://www.stylegrades.com/#/admin/review"
+              style="display:inline-block;padding:12px 20px;background:#2F3C4F;color:white;text-decoration:none;border-radius:6px;">
+              🔍 Review Application
+            </a>
+          `,
+        });
+
+  console.log("EMAIL SENT:", emailResult);
+
+} catch (emailError) {
+  console.error("EMAIL ERROR:", emailError);
+}
 
       return res.status(200).json({
         ok: true,
