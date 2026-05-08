@@ -1,6 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 
+// 🔁 FORCE REDEPLOY - do not remove
+
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -9,6 +11,10 @@ const supabase = createClient(
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
+
+   console.log("🔥 USING SUPABASE:", process.env.SUPABASE_URL);
+
+   console.log("🔥 APPLICATION API HIT");
   // ✅ CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -24,8 +30,14 @@ export default async function handler(req, res) {
 
   if (req.method === "POST") {
     try {
-      const data = req.body;
+      const data =
+        typeof req.body === "string"
+          ? JSON.parse(req.body)
+          : req.body;
 
+      const email = (data.email || "").trim().toLowerCase();
+      console.log("EMAIL RECEIVED:", email);
+      
       const tierMap = {
         starter: "free",
         signature: "pro",
@@ -43,11 +55,25 @@ export default async function handler(req, res) {
       console.log("Application received:", data);
       console.log("FULL PAYLOAD RECEIVED:", data);
 
+      // redeploy trigger
+      // 🔍 Check if stylist already exists
+      const { data: existing } = await supabase
+        .from("stylists")
+        .select("id")
+        .eq("email", email);
+
+      if (existing && existing.length > 0) {
+        return res.status(400).json({
+          ok: false,
+          error: "User already exists. Please login to continue.",
+        });
+      }
+      
       // ✅ INSERT INTO SUPABASE
       const { error } = await supabase.from("stylists").insert([
         {
           full_name: data.fullName,
-          email: data.email,
+          email: email,
           phone: data.phone,
 
            bio: data.bio ?? null,
@@ -73,7 +99,7 @@ export default async function handler(req, res) {
           website: data.website ?? null,
 
           tier_requested: resolvedTier,
-          tier_active: resolvedTier,
+          tier: resolvedTier,
 
           photo_url: data.photo_url ?? null,
           gallery: Array.isArray(data.gallery) ? data.gallery : [],
@@ -86,6 +112,15 @@ export default async function handler(req, res) {
 
       if (error) {
         console.error("Supabase error:", error);
+
+        // 🔥 Catch duplicate email (Postgres unique violation)
+        if (error.code === "23505") {
+          return res.status(400).json({
+            ok: false,
+            error: "User already exists. Please login to continue.",
+          });
+        }
+
         return res.status(500).json({
           ok: false,
           error: error.message,

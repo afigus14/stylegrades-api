@@ -22,7 +22,15 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { plan } = req.body;
+    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+
+    const { plan, user_id, email } = body;
+
+    console.log("BODY RECEIVED:", body);
+
+    if (!user_id) {
+      return res.status(400).json({ error: "Missing user_id" });
+    }
 
     const priceMap = {
       pro: "price_1TBEjGEj1ct2UatiPu6pwism",
@@ -30,22 +38,37 @@ export default async function handler(req, res) {
     };
 
     const priceId = priceMap[plan];
-
+    
     if (!priceId) {
       return res.status(400).json({ error: "Invalid plan" });
     }
 
+    const BASE_URL =
+      process.env.NODE_ENV === "production"
+        ? "https://www.stylegrades.com"
+        : "http://localhost:5173";
+
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
+      customer_email: email,
+      
+      customer_creation: "always",
+
       line_items: [
         {
           price: priceId,
           quantity: 1,
         },
       ],
-      success_url: "http://localhost:5173/success",
-      cancel_url: "http://localhost:5173/join",
+
+      metadata: {
+        user_id: user_id,
+        plan: plan,
+      },
+
+      success_url: `${BASE_URL}/success`,
+      cancel_url: `${BASE_URL}/join`,
     });
 
     res.status(200).json({ url: session.url });
