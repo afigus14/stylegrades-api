@@ -1,8 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 
-// 🔁 FORCE REDEPLOY 2
-
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -13,6 +11,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export default async function handler(req, res) {
 
    console.log("🔥 USING SUPABASE:", process.env.SUPABASE_URL);
+
+   console.log("🔥 SUBMIT APPLICATION ROUTE HIT");
 
    console.log("🔥 APPLICATION API HIT");
   // ✅ CORS
@@ -111,14 +111,13 @@ export default async function handler(req, res) {
       ]);
 
       if (error) {
+        console.error("🚨 NEW ERROR HANDLER RUNNING");
         console.error("Supabase error:", error);
 
-        // 🔥 Catch duplicate email (works for ALL cases)
-        if (
-          error.code === "23505" ||
-          error.message?.toLowerCase().includes("duplicate") ||
-          error.message?.toLowerCase().includes("unique_email_lower")
-        ) {
+        const msg = (error.message || "").toLowerCase();
+
+        // 🔥 Catch ALL duplicate cases
+        if (msg.includes("duplicate") || msg.includes("unique_email_lower")) {
           return res.status(400).json({
             ok: false,
             error: "User already exists. Please login to continue.",
@@ -127,7 +126,7 @@ export default async function handler(req, res) {
 
         return res.status(500).json({
           ok: false,
-          error: error.message,
+          error: error.message || "Database error",
         });
       }
 
