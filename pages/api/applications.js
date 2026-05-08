@@ -27,7 +27,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    return res.status(200).json({ message: "API is working" });
+    return res.status(200).json({ message: "NEW FILE ACTIVE 🚀" });
   }
 
   if (req.method === "POST") {
