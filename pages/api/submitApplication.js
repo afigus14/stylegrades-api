@@ -111,22 +111,18 @@ export default async function handler(req, res) {
       ]);
 
       if (error) {
-        console.error("🚨 NEW ERROR HANDLER RUNNING");
         console.error("Supabase error:", error);
 
-        const msg = (error.message || "").toLowerCase();
-
-        // 🔥 Catch ALL duplicate cases
-        if (msg.includes("duplicate") || msg.includes("unique_email_lower")) {
-          return res.status(400).json({
+        if (error.code === "23505") {
+          return res.status(200).json({
             ok: false,
-            error: "User already exists. Please login to continue.",
+            error: "You already have a profile. Please log in or contact support.",
           });
         }
 
         return res.status(500).json({
           ok: false,
-          error: error.message || "Database error",
+          error: "Something went wrong. Please try again.",
         });
       }
 
