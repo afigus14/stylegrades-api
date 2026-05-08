@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 
-// 🔁 FORCE REDEPLOY - do not remove
+// 🔁 FORCE REDEPLOY 2
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -113,8 +113,12 @@ export default async function handler(req, res) {
       if (error) {
         console.error("Supabase error:", error);
 
-        // 🔥 Catch duplicate email (Postgres unique violation)
-        if (error.code === "23505") {
+        // 🔥 Catch duplicate email (works for ALL cases)
+        if (
+          error.code === "23505" ||
+          error.message?.toLowerCase().includes("duplicate") ||
+          error.message?.toLowerCase().includes("unique_email_lower")
+        ) {
           return res.status(400).json({
             ok: false,
             error: "User already exists. Please login to continue.",
