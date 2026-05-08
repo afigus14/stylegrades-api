@@ -12,6 +12,8 @@ export default async function handler(req, res) {
 
    console.log("🔥 USING SUPABASE:", process.env.SUPABASE_URL);
 
+   console.log("🔥 API HIT");
+
    console.log("🔥 SUBMIT APPLICATION ROUTE HIT");
 
    console.log("🔥 APPLICATION API HIT");
