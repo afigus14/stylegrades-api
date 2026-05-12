@@ -144,7 +144,7 @@ export default async function handler(req, res) {
 
             <br/>
 
-            <a href="https://www.stylegrades.com/#/admin/review"
+            <a href="https://stylegrades.com/admin-review" target="_blank">
               style="display:inline-block;padding:12px 20px;background:#2F3C4F;color:white;text-decoration:none;border-radius:6px;">
               🔍 Review Application
             </a>
