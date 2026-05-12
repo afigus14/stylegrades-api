@@ -144,10 +144,16 @@ export default async function handler(req, res) {
 
             <br/>
 
-            <a href="https://stylegrades.com/admin-review" target="_blank">
-              style="display:inline-block;padding:12px 20px;background:#2F3C4F;color:white;text-decoration:none;border-radius:6px;">
-              🔍 Review Application
-            </a>
+            <table role="presentation" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="center">
+                  <a href="https://stylegrades.com/admin-review"
+                    style="background-color:#2F3C4F;color:#ffffff;padding:12px 20px;text-decoration:none;border-radius:6px;display:inline-block;font-weight:bold;">
+                    🔍 Review Application
+                  </a>
+                </td>
+              </tr>
+            </table>
           `,
         });
 
