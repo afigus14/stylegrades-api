@@ -134,6 +134,12 @@ export default async function handler(req, res) {
           from: "onboarding@resend.dev",
           to: "afigus14@yahoo.com",
           subject: "New Stylist Application",
+
+          // 🔥 ADD THIS RIGHT HERE
+          tracking: {
+            clicks: false,
+          },
+
           html: `
             <h2>New Stylist Application</h2>
 
@@ -147,8 +153,10 @@ export default async function handler(req, res) {
             <table role="presentation" cellspacing="0" cellpadding="0">
               <tr>
                 <td align="center">
-                  <a href="https://stylegrades.com/admin/review" target="_blank">
-                    style="background-color:#2F3C4F;color:#ffffff;padding:12px 20px;text-decoration:none;border-radius:6px;display:inline-block;font-weight:bold;">
+                  <a 
+                    href="https://stylegrades.com/#/admin/review"
+                    style="background-color:#2F3C4F;color:#ffffff;padding:12px 20px;text-decoration:none;border-radius:6px;display:inline-block;font-weight:bold;"
+                  >
                     🔍 Review Application
                   </a>
                 </td>
