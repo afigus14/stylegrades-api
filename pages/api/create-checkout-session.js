@@ -2,7 +2,7 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-
+  console.log("✅ USING NEW SUCCESS URL:", `${BASE_URL}/#/dashboard`);
 
 export default async function handler(req, res) {
 
@@ -65,8 +65,8 @@ export default async function handler(req, res) {
         plan: plan,
       },
 
-      success_url: `${BASE_URL}/success`,
-      cancel_url: `${BASE_URL}/join`,
+      success_url: `${BASE_URL}/#/dashboard`,
+      cancel_url: `${BASE_URL}/#/dashboard`,
     });
 
     res.status(200).json({ url: session.url });
