@@ -40,9 +40,10 @@ export default async function handler(req, res) {
 
   const userId = session.metadata?.user_id;
   const plan = session.metadata?.plan;
+  const customerId = session.customer;
 
-  if (!userId) {
-    console.error("❌ No user_id in metadata");
+  if (!userId || !plan) {
+    console.error("❌ Missing metadata:", { userId, plan });
     return res.status(400).end();
   }
 
@@ -53,26 +54,21 @@ export default async function handler(req, res) {
     process.env.SUPABASE_SERVICE_ROLE_KEY
   );
 
-  let tier = "free";
-
-  if (plan === "pro") tier = "pro";
-  if (plan === "premium") tier = "premium";
-
+  // ✅ THIS IS THE KEY FIX
   const { error } = await supabase
     .from("stylists")
     .update({
-      tier: tier,
-      subscription_status: "active",
+      tier: plan,                // ✅ correct column
       stripe_customer_id: customerId,
+      subscription_status: "active",
     })
     .eq("user_id", userId);
 
   if (error) {
     console.error("❌ Supabase update error:", error);
   } else {
-    console.log("✅ Tier updated:", tier, "for user:", userId);
+    console.log("🎉 User upgraded:", userId, plan);
   }
-}
 
   res.status(200).json({ received: true });
 }

@@ -52,8 +52,6 @@ export default async function handler(req, res) {
       mode: "subscription",
       payment_method_types: ["card"],
       customer_email: email,
-      
-      customer_creation: "always",
 
       line_items: [
         {
