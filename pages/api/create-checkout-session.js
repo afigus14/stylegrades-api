@@ -2,8 +2,6 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-  console.log("✅ USING NEW SUCCESS URL:", `${BASE_URL}/#/dashboard`);
-
 export default async function handler(req, res) {
 
   // ✅ CORS MUST COME FIRST
@@ -47,6 +45,8 @@ export default async function handler(req, res) {
       process.env.NODE_ENV === "production"
         ? "https://www.stylegrades.com"
         : "http://localhost:5173";
+
+    console.log("✅ USING NEW SUCCESS URL:", `${BASE_URL}/#/dashboard`);    
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
