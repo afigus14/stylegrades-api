@@ -3,7 +3,8 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
-  // ✅ ADD CORS (THIS IS THE FIX)
+  console.log("🔥 PORTAL ENDPOINT HIT");
+ 
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "*");
