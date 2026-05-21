@@ -62,5 +62,95 @@ export default async function handler(req, res) {
     }
   }
 
+  if (event.type === "customer.subscription.updated") {
+
+    const subscription = event.data.object;
+
+    const customerId = subscription.customer;
+
+    const priceId =
+      subscription.items.data[0]?.price?.id;
+
+    let tier = "free";
+
+    if (
+      priceId === "price_1TBEjGEj1ct2UatiPu6pwism"
+    ) {
+      tier = "pro";
+    }
+
+    if (
+      priceId === "price_1TBEk9Ej1ct2Uati8bWpeidQ"
+    ) {
+      tier = "premium";
+    }
+
+    const { createClient } = await import(
+      "@supabase/supabase-js"
+    );
+
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+
+    const { error } = await supabase
+      .from("stylists")
+      .update({
+        tier: tier,
+        subscription_status: subscription.status,
+      })
+      .eq("stripe_customer_id", customerId);
+
+    if (error) {
+      console.error(
+        "❌ Subscription update error:",
+        error
+      );
+    } else {
+      console.log(
+        "✅ Subscription updated:",
+        customerId,
+        tier
+      );
+    }
+  }
+
+  if (event.type === "customer.subscription.deleted") {
+
+    const subscription = event.data.object;
+
+    const customerId = subscription.customer;
+
+    const { createClient } = await import(
+      "@supabase/supabase-js"
+    );
+
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+
+    const { error } = await supabase
+      .from("stylists")
+      .update({
+        tier: "free",
+        subscription_status: "canceled",
+      })
+      .eq("stripe_customer_id", customerId);
+
+    if (error) {
+      console.error(
+        "❌ Cancellation update error:",
+        error
+      );
+    } else {
+      console.log(
+        "✅ Subscription canceled:",
+        customerId
+      );
+    }
+  }
+
   res.status(200).json({ received: true });
 }
