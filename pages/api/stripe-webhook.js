@@ -99,6 +99,7 @@ export default async function handler(req, res) {
       .update({
         tier: tier,
         subscription_status: subscription.status,
+        stripe_customer_id: customerId,
       })
       .eq("stripe_customer_id", customerId);
 
@@ -136,6 +137,7 @@ export default async function handler(req, res) {
       .update({
         tier: "free",
         subscription_status: "canceled",
+        stripe_customer_id: customerId,
       })
       .eq("stripe_customer_id", customerId);
 
