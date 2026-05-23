@@ -94,12 +94,48 @@ export default async function handler(req, res) {
       process.env.SUPABASE_SERVICE_ROLE_KEY
     );
 
+    const { data: stylist, error: fetchError } =
+      await supabase
+        .from("stylists")
+        .select("*")
+        .eq("stripe_customer_id", customerId)
+        .single();
+
+    if (fetchError || !stylist) {
+      console.error(
+        "❌ Could not find stylist:",
+        fetchError
+      );
+      return res.status(400).end();
+    }
+
+    // ENFORCE GALLERY LIMITS
+
+    let gallery = stylist.gallery || [];
+
+    let maxPhotos = 3;
+
+    if (tier === "pro") {
+      maxPhotos = 12;
+    }
+
+    if (tier === "premium") {
+      maxPhotos = 20;
+    }
+
+    if (gallery.length > maxPhotos) {
+      gallery = gallery.slice(0, maxPhotos);
+    }
+
+    // UPDATE STYLIST
+
     const { error } = await supabase
       .from("stylists")
       .update({
         tier: tier,
         subscription_status: subscription.status,
         stripe_customer_id: customerId,
+        gallery: gallery,
       })
       .eq("stripe_customer_id", customerId);
 
