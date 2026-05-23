@@ -168,12 +168,32 @@ export default async function handler(req, res) {
       process.env.SUPABASE_SERVICE_ROLE_KEY
     );
 
+    const { data: stylist, error: fetchError } =
+      await supabase
+        .from("stylists")
+        .select("*")
+        .eq("stripe_customer_id", customerId)
+        .single();
+
+    if (fetchError || !stylist) {
+      console.error(
+        "❌ Could not find stylist:",
+        fetchError
+      );
+      return res.status(400).end();
+    }
+
+    const trimmedGallery = (
+      stylist.gallery || []
+    ).slice(0, 3);
+
     const { error } = await supabase
       .from("stylists")
       .update({
         tier: "free",
         subscription_status: "canceled",
         stripe_customer_id: customerId,
+        gallery: trimmedGallery,
       })
       .eq("stripe_customer_id", customerId);
 
