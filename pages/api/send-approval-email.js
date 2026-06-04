@@ -27,8 +27,8 @@ export default async function handler(req, res) {
       html: `
         <h2>You're approved!</h2>
         <p>Hi ${name || "there"},</p>
-        <p>Your profile is now live on Stylegrades.</p>
-        <p>Clients can now find and contact you.</p>
+        <p>Welcome to Stylegrades! Your profile is now live.</p>
+        <p>Clients can now find and contact you. Encourage them to add a review.</p>
 
         <br/>
 
