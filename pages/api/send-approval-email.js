@@ -20,8 +20,6 @@ export default async function handler(req, res) {
   try {
     const { email, name, message } = req.body;
 
-    console.log("APPROVAL MESSAGE:", message);
-
     const result = await resend.emails.send({
       from: "Stylegrades <noreply@stylegrades.com>",
       to: email,
