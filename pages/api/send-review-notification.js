@@ -25,6 +25,10 @@ export default async function handler(req, res) {
       action,
     } = req.body;
 
+    console.log("ACTION:", action);
+    console.log("REVIEWER EMAIL:", reviewerEmail);
+    console.log("REVIEWER NAME:", reviewerName);
+
     const adminEmail = process.env.ADMIN_EMAIL;
 
     if (action === "submitted") {
