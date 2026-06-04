@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   try {
     const { email, name } = req.body;
 
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: "onboarding@resend.dev",
       to: email,
       subject: "You're approved on Stylegrades 🎉",
@@ -35,6 +35,8 @@ export default async function handler(req, res) {
         </a>
       `,
     });
+
+    console.log("RESEND RESULT:", result);
 
     res.status(200).json({ success: true });
   } catch (err) {
