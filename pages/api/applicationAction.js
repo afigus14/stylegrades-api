@@ -70,6 +70,20 @@ export default async function handler(req, res) {
 
       console.log("✅ APPROVE SUCCESS");
 
+      await fetch(
+        "https://stylegrades-api.vercel.app/api/send-approval-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: application.email,
+            name: application.full_name,
+          }),
+        }
+      );
+
       return res.status(200).json({ ok: true });
     }
 
