@@ -40,6 +40,7 @@ export default async function handler(req, res) {
 
     if (action === "approve") {
       console.log("🔥 APPROVE HIT", id);
+      console.log("🔥 APPROVE ACTION STARTED");
 
       // ✅ 1. Get FULL existing row (including images)
       const { data: application, error: fetchError } = await supabase
