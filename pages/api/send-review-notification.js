@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 
     if (action === "submitted") {
       await resend.emails.send({
-        from: "Stylegrades <noreply@stylegrades.com>"
+        from: "Stylegrades <noreply@stylegrades.com>",
         to: adminEmail,
         subject: "New Review Submitted",
         html: `
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
 
     if (action === "approved") {
       await resend.emails.send({
-        from: "Stylegrades <noreply@stylegrades.com>"
+        from: "Stylegrades <noreply@stylegrades.com>",
         to: reviewerEmail,
         subject: "Your Stylegrades Review Was Approved",
         html: `
@@ -64,7 +64,7 @@ export default async function handler(req, res) {
 
     if (action === "rejected") {
       await resend.emails.send({
-        from: "Stylegrades <noreply@stylegrades.com>"
+        from: "Stylegrades <noreply@stylegrades.com>",
         to: reviewerEmail,
         subject: "Your Stylegrades Review Was Not Approved",
         html: `
