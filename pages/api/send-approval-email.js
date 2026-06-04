@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { email, name } = req.body;
+    const { email, name, message } = req.body;
 
     const result = await resend.emails.send({
       from: "Stylegrades <noreply@stylegrades.com>",
