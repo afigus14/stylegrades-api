@@ -31,6 +31,9 @@ export default async function handler(req, res) {
       reviewerEmail
     );
 
+    console.log("REVIEWER:", reviewerName);
+    console.log("STYLIST:", stylistName);
+
     const result = await resend.emails.send({
       from: "Stylegrades <noreply@stylegrades.com>",
       to: reviewerEmail,
