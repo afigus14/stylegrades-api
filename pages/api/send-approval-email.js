@@ -20,6 +20,8 @@ export default async function handler(req, res) {
   try {
     const { email, name, message } = req.body;
 
+    console.log("APPROVAL MESSAGE:", message);
+
     const result = await resend.emails.send({
       from: "Stylegrades <noreply@stylegrades.com>",
       to: email,
@@ -29,6 +31,12 @@ export default async function handler(req, res) {
         <p>Hi ${name || "there"},</p>
         <p>Welcome to Stylegrades! Your profile is now live.</p>
         <p>Clients can now find and contact you. Encourage them to add a review.</p>
+
+        ${message ? `
+          <br/>
+          <h3>Message from Stylegrades</h3>
+          <p>${message}</p>
+        ` : ""}
 
         <br/>
 
