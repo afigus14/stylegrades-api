@@ -46,15 +46,18 @@ export default async function handler(req, res) {
         .select("*")
         .eq("token", token.trim());
 
-    console.log("TOKEN RECEIVED:", token);
-    console.log("INVITATIONS FOUND:", invitations);
-    console.log("INVITATION ERROR:", invitationError);
-
     const invitation = invitations?.[0];
 
     console.log("TOKEN RECEIVED:", token);
+    console.log("INVITATIONS FOUND:", invitations);
     console.log("INVITATION:", invitation);
     console.log("INVITATION ERROR:", invitationError);
+
+    const { data: allInvites } = await supabase
+      .from("review_invitations")
+      .select("token");
+
+    console.log("ALL TOKENS:", allInvites);
 
     if (invitationError || !invitation) {
       return res.status(400).json({
