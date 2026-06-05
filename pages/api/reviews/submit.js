@@ -136,11 +136,27 @@ export default async function handler(req, res) {
     }
 
     try {
-      const { data: stylist } = await supabase
-        .from("stylists")
-        .select("full_name")
-        .eq("id", invitation.stylist_id)
-        .single();
+      console.log(
+        "LOOKING FOR STYLIST ID:",
+        invitation.stylist_id
+      );
+
+      const { data: stylist, error: stylistError } =
+        await supabase
+          .from("stylists")
+          .select("id, full_name")
+          .eq("id", invitation.stylist_id)
+          .maybeSingle();
+
+      console.log(
+        "STYLIST RESULT:",
+        stylist
+      );
+
+      console.log(
+        "STYLIST ERROR:",
+        stylistError
+      );
 
       const emailResult = await fetch(
         `${process.env.VERCEL_URL
