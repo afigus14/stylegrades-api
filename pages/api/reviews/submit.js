@@ -142,7 +142,7 @@ export default async function handler(req, res) {
         .eq("id", invitation.stylist_id)
         .single();
 
-      await fetch(
+      const emailResult = await fetch(
         `${process.env.VERCEL_URL
           ? `https://${process.env.VERCEL_URL}`
           : "https://stylegrades-api.vercel.app"}/api/send-review-notification`,
@@ -162,6 +162,19 @@ export default async function handler(req, res) {
             rating,
           }),
         }
+      );
+
+      console.log(
+        "EMAIL STATUS:",
+        emailResult.status
+      );
+
+      const emailJson =
+        await emailResult.json();
+
+      console.log(
+        "EMAIL RESPONSE:",
+        emailJson
       );
     } catch (emailError) {
       console.error(
