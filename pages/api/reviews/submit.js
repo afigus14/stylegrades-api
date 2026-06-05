@@ -135,6 +135,41 @@ export default async function handler(req, res) {
       );
     }
 
+    try {
+      const { data: stylist } = await supabase
+        .from("stylists")
+        .select("full_name")
+        .eq("id", invitation.stylist_id)
+        .single();
+
+      await fetch(
+        `${process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : "https://stylegrades-api.vercel.app"}/api/send-review-notification`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            action: "submitted",
+            reviewerName: invitation.client_name,
+            reviewerEmail: invitation.client_email,
+            stylistName:
+              stylist?.full_name || "Unknown Stylist",
+            reviewText:
+              headline + "\n\n" + reviewText,
+            rating,
+          }),
+        }
+      );
+    } catch (emailError) {
+      console.error(
+        "Review notification failed:",
+        emailError
+      );
+    }
+
     return res.status(200).json({
       ok: true,
     });
