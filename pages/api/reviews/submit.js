@@ -40,12 +40,17 @@ export default async function handler(req, res) {
       });
     }
 
-    const { data: invitation, error: invitationError } =
+    const { data: invitations, error: invitationError } =
       await supabase
         .from("review_invitations")
         .select("*")
-        .eq("token", token.trim())
-        .single();
+        .eq("token", token.trim());
+
+    console.log("TOKEN RECEIVED:", token);
+    console.log("INVITATIONS FOUND:", invitations);
+    console.log("INVITATION ERROR:", invitationError);
+
+    const invitation = invitations?.[0];
 
     console.log("TOKEN RECEIVED:", token);
     console.log("INVITATION:", invitation);
