@@ -101,7 +101,8 @@ export default async function handler(req, res) {
           lng: data.lng ?? null,
 
           salon_name: data.salonName ?? null,
-          years_experience: data.yearsExperience ?? null,
+          years_experience:
+            parseInt(data.yearsExperience) || null,
 
           license: data.license ?? null,
           license_url: data.licenseUrl ?? null,
