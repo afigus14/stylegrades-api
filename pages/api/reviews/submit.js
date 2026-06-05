@@ -44,13 +44,19 @@ export default async function handler(req, res) {
       await supabase
         .from("review_invitations")
         .select("*")
-        .eq("token", token)
+        .eq("token", token.trim())
         .single();
+
+    console.log("TOKEN RECEIVED:", token);
+    console.log("INVITATION:", invitation);
+    console.log("INVITATION ERROR:", invitationError);
 
     if (invitationError || !invitation) {
       return res.status(400).json({
         ok: false,
-        error: "Invalid review invitation.",
+        error:
+          invitationError?.message ||
+          "Invalid review invitation.",
       });
     }
 
