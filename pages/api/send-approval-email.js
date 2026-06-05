@@ -25,22 +25,67 @@ export default async function handler(req, res) {
       to: email,
       subject: "You're approved on Stylegrades 🎉",
       html: `
-        <h2>You're approved!</h2>
-        <p>Hi ${name || "there"},</p>
-        <p>Welcome to Stylegrades! Your profile is now live.</p>
-        <p>Clients can now find and contact you. Encourage them to add a review.</p>
+        <h2>Congratulations! Your Stylegrades profile has been approved 🎉</h2>
 
-        ${message ? `
-          <br/>
-          <h3>Message from Stylegrades</h3>
-          <p>${message}</p>
-        ` : ""}
+        <p>Hi ${name || "there"},</p>
+
+        <p>
+          Your stylist profile has been reviewed and approved by the Stylegrades team.
+        </p>
+
+        <p>
+          To activate your account and manage your profile, please create your login using the link below:
+        </p>
+
+        <p>
+          <a
+            href="https://www.stylegrades.com/#/signup"
+            style="
+              background:#102A43;
+              color:white;
+              padding:12px 18px;
+              text-decoration:none;
+              border-radius:6px;
+              display:inline-block;
+              font-weight:bold;
+            "
+          >
+            Create Your Account
+          </a>
+        </p>
+
+        <p>
+          After creating your account, you can:
+        </p>
+
+        <ul>
+          <li>Update your profile</li>
+          <li>Upload portfolio photos</li>
+          <li>Invite clients to leave reviews</li>
+          <li>Manage your subscription</li>
+        </ul>
+
+        ${
+          message
+            ? `
+            <br/>
+            <h3>Message from Stylegrades</h3>
+            <p>${message}</p>
+          `
+            : ""
+        }
 
         <br/>
 
-        <a href="https://www.stylegrades.com">
-          View your listing
-        </a>
+        <p>
+          Thank you for being part of Stylegrades!
+        </p>
+
+        <p>
+          <a href="https://www.stylegrades.com">
+            Visit Stylegrades
+          </a>
+        </p>
       `,
     });
 
