@@ -62,12 +62,25 @@ export default async function handler(req, res) {
       const { data: existing } = await supabase
         .from("stylists")
         .select("id")
-        .eq("email", email);
+        .eq("email", email);  
 
       if (existing && existing.length > 0) {
         return res.status(400).json({
           ok: false,
           error: "User already exists. Please login to continue.",
+        });
+      }
+
+      const { data: existingName } = await supabase
+        .from("stylists")
+        .select("id")
+        .eq("full_name", data.fullName);
+
+      if (existingName && existingName.length > 0) {
+        return res.status(400).json({
+          ok: false,
+          error:
+            "A stylist profile already exists with this name.",
         });
       }
       
@@ -116,15 +129,18 @@ export default async function handler(req, res) {
         console.error("Supabase error:", error);
 
         if (error.code === "23505") {
-          return res.status(200).json({
+          return res.status(400).json({
             ok: false,
-            error: "You already have a profile. Please log in or contact support.",
+            error:
+              "A stylist profile already exists with this email address.",
           });
         }
 
-        return res.status(500).json({
+        return res.status(400).json({
           ok: false,
-          error: "Something went wrong. Please try again.",
+          error:
+            error.message ||
+            "Application could not be submitted.",
         });
       }
 
@@ -178,9 +194,12 @@ export default async function handler(req, res) {
 
     } catch (error) {
       console.error("Server error:", error);
+
       return res.status(500).json({
         ok: false,
-        error: "Server error",
+        error:
+          error?.message ||
+          "Unexpected server error.",
       });
     }
   }
