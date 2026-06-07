@@ -18,6 +18,8 @@ export default async function handler(req, res) {
     const response = await fetch(url);
     const data = await response.json();
 
+    console.log("GOOGLE GEOCODE DATA:", data);
+
     if (
       !data.results ||
       data.results.length === 0
