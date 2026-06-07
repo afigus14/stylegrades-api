@@ -173,11 +173,9 @@ export default async function handler(req, res) {
         "VERCEL_URL:",
         process.env.VERCEL_URL
       );
-      
+
       const emailResult = await fetch(
-        `${process.env.VERCEL_URL
-          ? `https://${process.env.VERCEL_URL}`
-          : "https://stylegrades-api.vercel.app"}/api/send-review-notification`,
+        "https://stylegrades-api.vercel.app/api/send-review-notification",
         {
           method: "POST",
           headers: {
