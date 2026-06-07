@@ -158,6 +158,22 @@ export default async function handler(req, res) {
         stylistError
       );
 
+      console.log(
+        "CALLING REVIEW NOTIFICATION API"
+      );
+
+      console.log(
+        "URL:",
+        `${process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : "https://stylegrades-api.vercel.app"}/api/send-review-notification`
+      );
+
+      console.log(
+        "VERCEL_URL:",
+        process.env.VERCEL_URL
+      );
+      
       const emailResult = await fetch(
         `${process.env.VERCEL_URL
           ? `https://${process.env.VERCEL_URL}`
@@ -192,6 +208,8 @@ export default async function handler(req, res) {
         "EMAIL RESPONSE:",
         emailJson
       );
+      console.log("🔥 REVIEW SUBMISSION COMPLETE");
+
     } catch (emailError) {
       console.error(
         "Review notification failed:",

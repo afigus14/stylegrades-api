@@ -25,8 +25,11 @@ export default async function handler(req, res) {
       action,
     } = req.body;
 
-    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminEmail = "afigus14@yahoo.com";
 
+    console.log("ADMIN EMAIL:", adminEmail);
+    console.log("ACTION:", action); 
+    
     if (action === "submitted") {
       await resend.emails.send({
         from: "Stylegrades <noreply@stylegrades.com>",
