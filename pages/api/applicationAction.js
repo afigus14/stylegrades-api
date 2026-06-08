@@ -59,8 +59,12 @@ export default async function handler(req, res) {
       const { error } = await supabase
         .from("stylists")
         .update({
-          ...application,       // 🔥 THIS PRESERVES EVERYTHING
-          status: "approved",   // 🔥 ONLY CHANGE THIS
+          ...application,
+          status: "approved",
+          subscription_status:
+            application.tier === "free"
+              ? "active"
+              : "pending_payment",
         })
         .eq("id", id);
 
