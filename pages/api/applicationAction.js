@@ -88,8 +88,13 @@ export default async function handler(req, res) {
         name: application.full_name,
       });
 
+      const emailEndpoint =
+        application.tier === "free"
+          ? "send-approval-email"
+          : "send-payment-email";
+
       await fetch(
-        "https://stylegrades-api.vercel.app/api/send-approval-email",
+        `https://stylegrades-api.vercel.app/api/${emailEndpoint}`,
         {
           method: "POST",
           headers: {
@@ -98,6 +103,7 @@ export default async function handler(req, res) {
           body: JSON.stringify({
             email: application.email,
             name: application.full_name,
+            tier: application.tier,
           }),
         }
       );
