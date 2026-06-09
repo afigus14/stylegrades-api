@@ -55,6 +55,14 @@ export default async function handler(req, res) {
 
       console.log("🧠 EXISTING DATA:", application);
 
+      console.log("TIER:", application.tier);
+      console.log(
+        "SUB STATUS TO SAVE:",
+        application.tier === "free"
+          ? "active"
+          : "pending_payment"
+      );
+
       // ✅ 2. Update ONLY status, but SEND BACK EVERYTHING
       const { error } = await supabase
         .from("stylists")
