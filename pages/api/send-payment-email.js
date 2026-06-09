@@ -24,10 +24,7 @@ export default async function handler(req, res) {
         </p>
 
         <p>
-          Because you selected the
-          <strong>${tier.toUpperCase()}</strong>
-          plan, you'll need to activate your subscription
-          before your profile becomes visible on Stylegrades.
+          Because you selected a paid plan, you'll need to create your account and activate your subscription before your profile becomes visible to clients.
         </p>
 
         <p>
@@ -36,14 +33,31 @@ export default async function handler(req, res) {
         </p>
 
         <p>
-          Log into Stylegrades and click
-          <strong>Manage Subscription</strong>
-          to activate your account.
+          To activate your profile:
         </p>
 
+        <ol>
+          <li>Create your Stylegrades account</li>
+          <li>Log in to your dashboard</li>
+          <li>Click <strong>Manage Subscription</strong></li>
+          <li>Complete payment</li>
+          <li>Your profile will automatically go live</li>
+        </ol>
+
         <p>
-          <a href="https://www.stylegrades.com/#/login">
-            Login to Stylegrades
+          <a
+            href="https://www.stylegrades.com/#/signup"
+            style="
+              background:#102A43;
+              color:white;
+              padding:12px 18px;
+              text-decoration:none;
+              border-radius:6px;
+              display:inline-block;
+              font-weight:bold;
+            "
+          >
+            Create Your Account
           </a>
         </p>
       `,
