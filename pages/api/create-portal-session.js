@@ -28,9 +28,14 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing customer_id" });
     }
 
+    const BASE_URL =
+      process.env.NODE_ENV === "production"
+        ? "https://www.stylegrades.com"
+        : "http://localhost:5173";
+
     const session = await stripe.billingPortal.sessions.create({
       customer: customer_id,
-      return_url: "http://localhost:5173/#/dashboard",
+      return_url: `${BASE_URL}/#/dashboard`,
     });
 
     res.status(200).json({ url: session.url });
