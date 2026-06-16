@@ -15,7 +15,7 @@ export default async function handler(req, res) {
       to: email,
       subject: "Your Stylegrades profile has been approved",
       html: `
-        <h2>Your profile has been approved 🎉</h2>
+        <h2>Your profile has been approved! 🎉</h2>
 
         <p>Hi ${name},</p>
 
@@ -37,11 +37,11 @@ export default async function handler(req, res) {
         </p>
 
         <ol>
-          <li>Create your Stylegrades account</li>
-          <li>Log in to your dashboard</li>
-          <li>Click <strong>Manage Subscription</strong></li>
-          <li>Complete payment</li>
-          <li>Your profile will automatically go live</li>
+          <li>Create your Stylegrades account.</li>
+          <li>Log in to your dashboard.</li>
+          <li>Click <strong>Manage Subscription.</strong></li>
+          <li>Complete payment.</li>
+          <li>Your profile will automatically go live.</li>
         </ol>
 
         <p>

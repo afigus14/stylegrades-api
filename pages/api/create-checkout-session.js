@@ -31,8 +31,8 @@ export default async function handler(req, res) {
     }
 
     const priceMap = {
-      pro: "price_1TBEjGEj1ct2UatiPu6pwism",
-      premium: "price_1TBEk9Ej1ct2Uati8bWpeidQ",
+      pro: "price_1Tigc8IvhZOmYR7a5DIIIQM",
+      premium: "price_1Tigc8IvhZOmYR7aQGQlQ4qF",
     };
 
     const priceId = priceMap[plan];

@@ -74,13 +74,13 @@ export default async function handler(req, res) {
     let tier = "free";
 
     if (
-      priceId === "price_1TBEjGEj1ct2UatiPu6pwism"
+      priceId === "price_1Tigc8IvhZOmYR7a5DIIIQMb"
     ) {
       tier = "pro";
     }
 
     if (
-      priceId === "price_1TBEk9Ej1ct2Uati8bWpeidQ"
+      priceId === "price_1Tigc8IvhZOmYR7aQGQlQ4qF"
     ) {
       tier = "premium";
     }
