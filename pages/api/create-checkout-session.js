@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     }
 
     const priceMap = {
-      pro: "price_1Tigc8IvhZOmYR7a5DIIIQM",
+      pro: "price_1Tigc8IvhZOmYR7a5DIIIQMb",
       premium: "price_1Tigc8IvhZOmYR7aQGQlQ4qF",
     };
 
