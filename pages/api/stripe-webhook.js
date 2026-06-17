@@ -29,7 +29,77 @@ export default async function handler(req, res) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
+
+    // ADVERTISER CHECKOUT
+
+    if (session.metadata?.advertiser === "true") {
+
+      const { createClient } = await import(
+        "@supabase/supabase-js"
+      );
+
+      const supabase = createClient(
+        process.env.SUPABASE_URL,
+        process.env.SUPABASE_SERVICE_ROLE_KEY
+      );
+
+      const customerId = session.customer;
+
+      const companyName =
+        session.metadata.company_name;
+
+      const contactEmail =
+        session.metadata.contact_email;
+
+      const placementType =
+        session.metadata.placement_type;
+
+      const subscriptionId =
+        session.subscription;
+
+      const { error } = await supabase
+        .from("advertisers")
+        .insert([
+          {
+            company_name: companyName,
+            contact_email: contactEmail,
+
+            placement_type: placementType,
+
+            status: "pending",
+
+            stripe_customer_id: customerId,
+
+            stripe_subscription_id:
+              subscriptionId,
+
+            subscription_status: "active",
+
+            targeting_type: "national",
+
+            impressions: 0,
+            clicks: 0,
+          },
+        ]);
+
+      if (error) {
+        console.error(
+          "Advertiser insert error:",
+          error
+        );
+      } else {
+        console.log(
+          "Advertiser created:",
+          companyName
+        );
+      }
+
+      return res.status(200).json({
+        received: true,
+      });
+    }
     const customerId = session.customer;
+    const subscriptionId = session.subscription;
 
     const userId = session.metadata?.user_id;
     const plan = session.metadata?.plan;
@@ -51,6 +121,7 @@ export default async function handler(req, res) {
       .update({
         tier: plan,
         stripe_customer_id: customerId,
+        stripe_subscription_id: subscriptionId,
         subscription_status: "active",
       })
       .eq("user_id", userId);
@@ -135,6 +206,7 @@ export default async function handler(req, res) {
         tier: tier,
         subscription_status: subscription.status,
         stripe_customer_id: customerId,
+        stripe_subscription_id: subscription.id,
         gallery: gallery,
       })
       .eq("stripe_customer_id", customerId);
@@ -193,6 +265,7 @@ export default async function handler(req, res) {
         tier: "free",
         subscription_status: "canceled",
         stripe_customer_id: customerId,
+        stripe_subscription_id: subscription.id,
         gallery: trimmedGallery,
       })
       .eq("stripe_customer_id", customerId);
