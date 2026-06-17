@@ -51,7 +51,10 @@ export default async function handler(req, res) {
       const contactEmail =
         session.metadata.contact_email;
 
-      const placementType =
+      const website =
+        session.metadata.website;
+      
+        const placementType =
         session.metadata.placement_type;
 
       const subscriptionId =
@@ -63,6 +66,7 @@ export default async function handler(req, res) {
           {
             company_name: companyName,
             contact_email: contactEmail,
+            website: website,
 
             placement_type: placementType,
 

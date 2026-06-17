@@ -26,6 +26,7 @@ export default async function handler(req, res) {
     const {
       company_name,
       contact_email,
+      website,
       placement_type,
     } = body;
 
@@ -61,6 +62,7 @@ export default async function handler(req, res) {
           advertiser: "true",
           company_name,
           contact_email,
+          website,
           placement_type,
         },
 
