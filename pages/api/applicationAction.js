@@ -63,12 +63,21 @@ export default async function handler(req, res) {
           : "pending_payment"
       );
 
+      const profileSlug =
+        application.full_name
+          ?.toLowerCase()
+          .trim()
+          .replace(/\s+/g, "_")
+          .replace(/[^a-z0-9_]/g, "");
+
       // ✅ 2. Update ONLY status, but SEND BACK EVERYTHING
       const { error } = await supabase
         .from("stylists")
         .update({
           ...application,
           status: "approved",
+          profile_slug:
+            application.profile_slug || profileSlug,
           subscription_status:
             application.tier === "free"
               ? "active"
