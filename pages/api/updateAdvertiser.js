@@ -40,7 +40,8 @@ export default async function handler(req, res) {
       cta,
       body,
       website,
-      is_founding_advertiser,
+      image_url,
+      is_founding_partner,
     } = req.body;
 
     const { error } = await supabase
@@ -50,7 +51,8 @@ export default async function handler(req, res) {
         cta,
         body,
         website,
-        is_founding_advertiser,
+        image_url,
+        is_founding_partner,
       })
       .eq("id", id);
 
