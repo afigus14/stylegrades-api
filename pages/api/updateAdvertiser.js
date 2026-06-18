@@ -18,12 +18,12 @@ export default async function handler(req, res) {
 
   try {
 
-    const adminKey =
-      req.headers["x-admin-key"];
+    const adminKey = req.headers["x-admin-key"];
 
-    if (
-      adminKey !== process.env.ADMIN_API_KEY
-    ) {
+    console.log("HEADER KEY:", adminKey);
+    console.log("ENV KEY:", process.env.ADMIN_API_KEY);
+
+    if (adminKey !== process.env.ADMIN_API_KEY) {
       return res.status(401).json({
         error: "Unauthorized",
       });
