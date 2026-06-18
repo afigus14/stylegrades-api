@@ -38,6 +38,9 @@ export default async function handler(req, res) {
       id,
       headline,
       cta,
+      body,
+      website,
+      is_founding_advertiser,
     } = req.body;
 
     const { error } = await supabase
@@ -45,6 +48,9 @@ export default async function handler(req, res) {
       .update({
         headline,
         cta,
+        body,
+        website,
+        is_founding_advertiser,
       })
       .eq("id", id);
 
