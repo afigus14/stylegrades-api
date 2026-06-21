@@ -267,6 +267,15 @@ export default async function handler(req, res) {
 
     const customerId = subscription.customer;
 
+    const { createClient } = await import(
+      "@supabase/supabase-js"
+    );
+
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+
     console.log(
       "DELETE EVENT CUSTOMER ID:",
       customerId
@@ -283,22 +292,6 @@ export default async function handler(req, res) {
       "ADVERTISER FOUND:",
       advertiser
     );
-
-    const { createClient } = await import(
-      "@supabase/supabase-js"
-    );
-
-    const supabase = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY
-    );
-
-    const { data: advertiser } =
-      await supabase
-        .from("advertisers")
-        .select("*")
-        .eq("stripe_customer_id", customerId)
-        .maybeSingle();
 
     if (advertiser) {
 
