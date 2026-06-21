@@ -198,19 +198,22 @@ export default async function handler(req, res) {
       });
     }
 
-        const { data: stylist, error: fetchError } =
+        const { data: stylist } =
           await supabase
             .from("stylists")
             .select("*")
             .eq("stripe_customer_id", customerId)
-            .single();
+            .maybeSingle();
 
-        if (fetchError || !stylist) {
-          console.error(
-            "❌ Could not find stylist:",
-            fetchError
+        if (!stylist) {
+          console.log(
+            "No stylist or advertiser found for customer:",
+            customerId
           );
-          return res.status(400).end();
+
+          return res.status(200).json({
+            received: true,
+          });
         }
 
         // ENFORCE GALLERY LIMITS
@@ -263,6 +266,23 @@ export default async function handler(req, res) {
     const subscription = event.data.object;
 
     const customerId = subscription.customer;
+
+    console.log(
+      "DELETE EVENT CUSTOMER ID:",
+      customerId
+    );
+
+    const { data: advertiser } =
+      await supabase
+        .from("advertisers")
+        .select("*")
+        .eq("stripe_customer_id", customerId)
+        .maybeSingle();
+
+    console.log(
+      "ADVERTISER FOUND:",
+      advertiser
+    );
 
     const { createClient } = await import(
       "@supabase/supabase-js"
