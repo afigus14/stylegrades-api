@@ -169,38 +169,67 @@ export default async function handler(req, res) {
       process.env.SUPABASE_SERVICE_ROLE_KEY
     );
 
-    const { data: stylist, error: fetchError } =
+    const { data: advertiser } =
       await supabase
-        .from("stylists")
+        .from("advertisers")
         .select("*")
         .eq("stripe_customer_id", customerId)
-        .single();
+        .maybeSingle();
 
-    if (fetchError || !stylist) {
-      console.error(
-        "❌ Could not find stylist:",
-        fetchError
-      );
-      return res.status(400).end();
+    if (advertiser) {
+
+      const { error } = await supabase
+        .from("advertisers")
+        .update({
+          subscription_status: subscription.status,
+          stripe_subscription_id: subscription.id,
+        })
+        .eq("stripe_customer_id", customerId);
+
+      if (error) {
+        console.error(
+          "Advertiser update error:",
+          error
+        );
+      }
+
+      return res.status(200).json({
+        received: true,
+      });
     }
 
-    // ENFORCE GALLERY LIMITS
+        const { data: stylist, error: fetchError } =
+          await supabase
+            .from("stylists")
+            .select("*")
+            .eq("stripe_customer_id", customerId)
+            .single();
 
-    let gallery = stylist.gallery || [];
+        if (fetchError || !stylist) {
+          console.error(
+            "❌ Could not find stylist:",
+            fetchError
+          );
+          return res.status(400).end();
+        }
 
-    let maxPhotos = 3;
+        // ENFORCE GALLERY LIMITS
 
-    if (tier === "pro") {
-      maxPhotos = 12;
-    }
+        let gallery = stylist.gallery || [];
 
-    if (tier === "premium") {
-      maxPhotos = 20;
-    }
+        let maxPhotos = 3;
 
-    if (gallery.length > maxPhotos) {
-      gallery = gallery.slice(0, maxPhotos);
-    }
+        if (tier === "pro") {
+          maxPhotos = 12;
+        }
+
+        if (tier === "premium") {
+          maxPhotos = 20;
+        }
+
+        if (gallery.length > maxPhotos) {
+          gallery = gallery.slice(0, maxPhotos);
+        }
 
     // UPDATE STYLIST
 
@@ -243,6 +272,35 @@ export default async function handler(req, res) {
       process.env.SUPABASE_URL,
       process.env.SUPABASE_SERVICE_ROLE_KEY
     );
+
+    const { data: advertiser } =
+      await supabase
+        .from("advertisers")
+        .select("*")
+        .eq("stripe_customer_id", customerId)
+        .maybeSingle();
+
+    if (advertiser) {
+
+      const { error } = await supabase
+        .from("advertisers")
+        .update({
+          subscription_status: "canceled",
+          stripe_subscription_id: subscription.id,
+        })
+        .eq("stripe_customer_id", customerId);
+
+      if (error) {
+        console.error(
+          "Advertiser cancellation error:",
+          error
+        );
+      }
+
+      return res.status(200).json({
+        received: true,
+      });
+    }
 
     const { data: stylist, error: fetchError } =
       await supabase
