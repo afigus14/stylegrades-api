@@ -60,6 +60,15 @@ export default async function handler(req, res) {
       const subscriptionId =
         session.subscription;
 
+      console.log(
+        "ADVERTISER CHECKOUT:",
+        {
+          customerId,
+          subscriptionId,
+          companyName,
+        }
+      );  
+
       const { error } = await supabase
         .from("advertisers")
         .insert([
