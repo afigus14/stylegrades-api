@@ -182,7 +182,10 @@ export default async function handler(req, res) {
       await supabase
         .from("advertisers")
         .select("*")
-        .eq("stripe_customer_id", customerId)
+        .eq(
+          "stripe_subscription_id",
+          subscription.id
+        )
         .maybeSingle();
 
     if (advertiser) {
