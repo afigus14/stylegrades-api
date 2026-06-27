@@ -1,10 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 
 export default async function handler(req, res) {
-
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Admin-Key");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, X-Admin-Key"
+  );
 
   if (req.method === "OPTIONS") {
     return res.status(200).end();
@@ -17,11 +19,7 @@ export default async function handler(req, res) {
   }
 
   try {
-
     const adminKey = req.headers["x-admin-key"];
-
-    console.log("HEADER KEY:", adminKey);
-    console.log("ENV KEY:", process.env.ADMIN_API_KEY);
 
     if (adminKey !== process.env.ADMIN_API_KEY) {
       return res.status(401).json({
@@ -42,6 +40,9 @@ export default async function handler(req, res) {
       website,
       image_url,
       is_founding_partner,
+      is_paused,
+      complimentary_until,
+      complimentary_reason,
     } = req.body;
 
     const { error } = await supabase
@@ -53,6 +54,9 @@ export default async function handler(req, res) {
         website,
         image_url,
         is_founding_partner,
+        is_paused,
+        complimentary_until,
+        complimentary_reason,
       })
       .eq("id", id);
 
