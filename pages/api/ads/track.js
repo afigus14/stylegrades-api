@@ -44,9 +44,15 @@ export default async function handler(req, res) {
         .eq("id", advertiserId)
         .single();
 
+    console.log("TRACKING ID:", advertiserId);
+    console.log("FOUND ADVERTISER:", advertiser);
+
     if (!advertiser) {
-      return res.status(404).json({
-        error: "Advertiser not found",
+      console.log("SKIPPED TRACKING FOR:", advertiserId);
+
+      return res.status(200).json({
+        success: true,
+        skipped: true,
       });
     }
 
