@@ -148,8 +148,8 @@ export default async function handler(req, res) {
       // ✅ SEND EMAIL HERE (inside handler, after insert)
       try {
         const emailResult = await resend.emails.send({
-          from: "Stylegrades Administrator <administrator@stylegrades.com>",
-          to: "administrator@stylegrades.com",
+          from: "Stylegrades <noreply@stylegrades.com>",
+          to: "afigus14@yahoo.com",
           subject: "New Stylist Application",
 
           // 🔥 ADD THIS RIGHT HERE
