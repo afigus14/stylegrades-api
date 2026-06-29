@@ -148,8 +148,8 @@ export default async function handler(req, res) {
       // ✅ SEND EMAIL HERE (inside handler, after insert)
       try {
         const emailResult = await resend.emails.send({
-          from: "onboarding@resend.dev",
-          to: "afigus14@yahoo.com",
+          from: "Stylegrades Administrator <administrator@stylegrades.com>",
+          to: "administrator@stylegrades.com",
           subject: "New Stylist Application",
 
           // 🔥 ADD THIS RIGHT HERE
@@ -182,7 +182,11 @@ export default async function handler(req, res) {
           `,
         });
 
-  console.log("EMAIL SENT:", emailResult);
+  console.log("RESEND RESULT:", emailResult);
+
+  if (emailResult.error) {
+    console.error("RESEND ERROR:", emailResult.error);
+  }
 
 } catch (emailError) {
   console.error("EMAIL ERROR:", emailError);
