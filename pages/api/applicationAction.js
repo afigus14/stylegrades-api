@@ -164,12 +164,17 @@ export default async function handler(req, res) {
         .single();
 
       // First update the application
-      const { error } = await supabase
+      const { data: updatedRow, error } = await supabase
         .from("stylists")
         .update({
           status: "needs_information",
         })
-        .eq("id", id);
+        .eq("id", id)
+        .select();
+
+      console.log("REQUEST INFO ID:", id);
+      console.log("UPDATED ROW:", updatedRow);
+      console.log("UPDATE ERROR:", error);
 
       if (error) {
         console.error(error);
