@@ -26,8 +26,15 @@ export default async function handler(req, res) {
 
     const result = await resend.emails.send({
       from: "Stylegrades <noreply@stylegrades.com>",
+
       to: email,
-      subject: "Additional Information Needed for Your Stylegrades Application",
+
+      cc: "administrator@stylegrades.com",
+
+      replyTo: "administrator@stylegrades.com",
+
+      subject:
+        "Additional Information Needed for Your Stylegrades Application",
       html: `
         <h2>Additional Information Needed</h2>
 
@@ -44,8 +51,13 @@ export default async function handler(req, res) {
         </blockquote>
 
         <p>
-          Please reply to this email with the requested information,
-          or log in to Stylegrades and update your profile if applicable.
+          Please update your application with the requested information and
+          resubmit it for review.
+        </p>
+
+        <p>
+          If you have any questions, simply reply to this email and a
+          Stylegrades administrator will assist you.
         </p>
 
         <p>Thank you!</p>
