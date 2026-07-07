@@ -156,12 +156,29 @@ export default async function handler(req, res) {
 
     // 🔥 REQUEST INFO
     if (action === "request_info") {
+
       const { data } = await supabase
         .from("stylists")
         .select("email, full_name")
         .eq("id", id)
         .single();
 
+      // First update the application
+      const { error } = await supabase
+        .from("stylists")
+        .update({
+          status: "needs_information",
+        })
+        .eq("id", id);
+
+      if (error) {
+        console.error(error);
+        return res.status(500).json({
+          error: error.message,
+        });
+      }
+
+      // Then send the email
       await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -171,14 +188,39 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           from: "Stylegrades <noreply@stylegrades.com>",
           to: data.email,
-          subject: "More information needed",
-          html: `<p>Hi ${data.full_name},</p>
-                 <p>We need a bit more information:</p>
-                 <p>${message}</p>`,
+          cc: "administrator@stylegrades.com",
+          reply_to: "administrator@stylegrades.com",
+          subject:
+            "Additional Information Needed for Your Stylegrades Application",
+          html: `
+            <h2>Additional Information Needed</h2>
+
+            <p>Hi ${data.full_name},</p>
+
+            <p>Before we can approve your Stylegrades profile we need one or more updates.</p>
+
+            <blockquote style="border-left:4px solid #ccc;padding-left:12px;">
+              ${message}
+            </blockquote>
+
+            <p>
+              Please update your application and resubmit it for review.
+            </p>
+
+            <p>
+              If you have any questions, simply reply to this email.
+            </p>
+
+            <p>Thank you!</p>
+
+            <p><strong>Stylegrades Administrator</strong></p>
+          `,
         }),
       });
 
-      return res.json({ ok: true });
+      return res.json({
+        ok: true,
+      });
     }
 
     return res.status(400).json({ error: "Invalid action" });
