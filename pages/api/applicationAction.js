@@ -168,6 +168,7 @@ export default async function handler(req, res) {
         .from("stylists")
         .update({
           status: "needs_information",
+          information_requested_at: new Date().toISOString(),
         })
         .eq("id", id)
         .select();
