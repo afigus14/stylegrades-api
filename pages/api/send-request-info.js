@@ -19,6 +19,7 @@ export default async function handler(req, res) {
 
   try {
     const {
+      applicationId,
       email,
       name,
       message,
@@ -51,8 +52,25 @@ export default async function handler(req, res) {
         </blockquote>
 
         <p>
-          Please update your application with the requested information and
+          Please click the button below to update your application and
           resubmit it for review.
+        </p>
+
+        <p style="margin:30px 0;">
+          <a
+            href="https://www.stylegrades.com/#/edit-application/${applicationId}"
+            style="
+              background:#1e3a5f;
+              color:#ffffff;
+              padding:14px 24px;
+              text-decoration:none;
+              border-radius:8px;
+              font-weight:bold;
+              display:inline-block;
+            "
+          >
+            Update My Application
+          </a>
         </p>
 
         <p>
