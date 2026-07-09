@@ -76,6 +76,7 @@ export default async function handler(req, res) {
         .update({
           ...application,
           status: "approved",
+          verified: true,
           profile_slug:
             application.profile_slug || profileSlug,
           subscription_status:

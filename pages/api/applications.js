@@ -106,6 +106,8 @@ export default async function handler(req, res) {
 
           license: data.license ?? null,
           license_url: data.licenseUrl ?? null,
+          
+          certifications: data.certifications ?? null,
 
           specialties: Array.isArray(data.specialties)
             ? data.specialties
