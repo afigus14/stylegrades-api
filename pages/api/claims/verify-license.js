@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -79,24 +80,67 @@ export default async function handler(req, res) {
       });
     }
 
-    /*
-      IMPORTANT:
-      At this stage we are ONLY confirming the license number.
+    const claimToken = crypto.randomBytes(32).toString("hex");
 
-      We are NOT:
-      - claiming the profile
-      - changing profile_source
-      - creating a user account
-      - setting claimed_at
-      - sending a verification email
+    const claimTokenExpiresAt = new Date(
+      Date.now() + 24 * 60 * 60 * 1000
+    ).toISOString();
 
-      Those steps come after we have tested this safely.
-    */
+    const { error: updateError } = await supabase
+      .from("stylists")
+      .update({
+        claim_email: normalizedEmail,
+        claim_token: claimToken,
+        claim_token_expires_at: claimTokenExpiresAt,
+        claim_requested_at: new Date().toISOString(),
+        claim_email_verified: false,
+        claim_email_verified_at: null,
+      })
+      .eq("id", stylist.id)
+      .eq("profile_source", "registry_unclaimed");
+
+    if (updateError) {
+      console.error("Claim request update error:", updateError);
+
+      return res.status(500).json({
+        error: "Unable to start the profile verification process.",
+      });
+    }
+
+    const emailResponse = await fetch(
+      "https://stylegrades-api.vercel.app/api/send-claim-verification",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-claim-internal-secret": process.env.CLAIM_INTERNAL_SECRET,
+        },
+        body: JSON.stringify({
+          email: normalizedEmail,
+          fullName: stylist.full_name,
+          token: claimToken,
+        }),
+      }
+    );
+
+    if (!emailResponse.ok) {
+      const emailResult = await emailResponse.json().catch(() => ({}));
+
+      console.error(
+        "Claim verification email failed:",
+        emailResult
+      );
+
+      return res.status(500).json({
+        error:
+          "Your license information matched, but we could not send the verification email. Please try again.",
+      });
+    }
 
     return res.status(200).json({
       success: true,
-      message: "License information matched.",
-      claimEmail: normalizedEmail,
+      message:
+        "License information matched. Check your email to continue verifying your profile.",
     });
   } catch (error) {
     console.error("Claim verification error:", error);
