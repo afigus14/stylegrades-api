@@ -28,40 +28,18 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Load analytics events
     const { data: events, error } = await supabase
       .from("ad_events")
       .select("*");
 
+    if (error) throw error;
+
     // Load approved stylist subscriptions
-    const { data: stylists, error: stylistError } = await supabase
-      .from("stylists")
-      .select("tier_active, status");
-
-    if (stylistError) throw stylistError;
-
-    const approvedStylists = (stylists || []).filter(
-      (s) => s.status === "approved"
-    );
-
-    const freeCount = approvedStylists.filter(
-      (s) => (s.tier_active || "free") === "free"
-    ).length;
-
-    const proCount = approvedStylists.filter(
-      (s) => s.tier_active === "pro"
-    ).length;
-
-    const premiumCount = approvedStylists.filter(
-      (s) => s.tier_active === "premium"
-    ).length;
-
-    const mrr = (proCount * 19) + (premiumCount * 39);
-    const forecast3mo = mrr * 3;  
-
-    // Get stylist subscription counts
-    const { data: stylists, error: stylistError } = await supabase
-      .from("stylists")
-      .select("tier_active, status");
+    const { data: stylists, error: stylistError } =
+      await supabase
+        .from("stylists")
+        .select("tier_active, status");
 
     if (stylistError) throw stylistError;
 
@@ -86,27 +64,26 @@ export default async function handler(req, res) {
       (proCount * 19) +
       (premiumCount * 39);
 
-    const forecast3mo = mrr * 3;  
+    const forecast3mo = mrr * 3;
 
-    if (error) throw error;
-
-    const profileViews = events.filter(
+    // Analytics event counts
+    const profileViews = (events || []).filter(
       (e) => e.event_type === "profile_view"
     ).length;
 
-    const profileClicks = events.filter(
+    const profileClicks = (events || []).filter(
       (e) => e.event_type === "profile_click"
     ).length;
 
-    const contactClicks = events.filter(
+    const contactClicks = (events || []).filter(
       (e) => e.event_type === "contact_click"
     ).length;
 
-    const adImpressions = events.filter(
+    const adImpressions = (events || []).filter(
       (e) => e.event_type === "impression"
     ).length;
 
-    const adClicks = events.filter(
+    const adClicks = (events || []).filter(
       (e) => e.event_type === "click"
     ).length;
 
@@ -149,10 +126,14 @@ export default async function handler(req, res) {
 
       overall: {
         profileClickRate:
-          profileViews > 0 ? profileClicks / profileViews : 0,
+          profileViews > 0
+            ? profileClicks / profileViews
+            : 0,
 
         contactRate:
-          profileViews > 0 ? contactClicks / profileViews : 0,
+          profileViews > 0
+            ? contactClicks / profileViews
+            : 0,
 
         contactFromProfileRate:
           profileClicks > 0
@@ -161,6 +142,7 @@ export default async function handler(req, res) {
       },
 
       trend: [],
+
       rankings: {
         topByViews: [],
         topByContacts: [],
