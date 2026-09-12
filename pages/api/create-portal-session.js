@@ -42,6 +42,11 @@ export default async function handler(req, res) {
 
   } catch (err) {
     console.error("Portal error:", err);
-    res.status(500).json({ error: "Portal error" });
+
+    return res.status(500).json({
+      error: err.message,
+      type: err.type,
+      code: err.code,
+    });
   }
 }

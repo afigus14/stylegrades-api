@@ -165,18 +165,33 @@ export default async function handler(req, res) {
         .single();
 
       // First update the application
+      const timestamp = new Date().toISOString();
+
+      console.log("REQUEST INFO ID:", id);
+      console.log("TIMESTAMP TO SAVE:", timestamp);
+
       const { data: updatedRow, error } = await supabase
         .from("stylists")
         .update({
           status: "needs_information",
-          information_requested_at: new Date().toISOString(),
+          information_requested_at: timestamp,
         })
         .eq("id", id)
         .select();
 
-      console.log("REQUEST INFO ID:", id);
       console.log("UPDATED ROW:", updatedRow);
       console.log("UPDATE ERROR:", error);
+
+      if (updatedRow?.length) {
+        console.log(
+          "DATABASE RETURNED:",
+          updatedRow[0].information_requested_at
+        );
+      }
+      console.log(
+        "TIMESTAMP AFTER UPDATE:",
+        updatedRow?.[0]?.information_requested_at
+      );
 
       if (error) {
         console.error(error);
