@@ -33,6 +33,7 @@ export default async function handler(req, res) {
   const {
     activationToken,
     password,
+    useExistingAccount = false,
   } = req.body || {};
 
   if (!activationToken) {
@@ -41,7 +42,10 @@ export default async function handler(req, res) {
     });
   }
 
-  if (!password || password.length < 8) {
+  if (
+    !useExistingAccount &&
+    (!password || password.length < 8)
+  ) {
     return res.status(400).json({
       error: "Please choose a password with at least 8 characters.",
     });
@@ -109,6 +113,115 @@ export default async function handler(req, res) {
       .toLowerCase();
 
     /*
+      Existing Stylegrades account path.
+
+      The claimant must already be signed in. We verify the supplied
+      Supabase access token server-side and require the authenticated
+      account email to exactly match the email previously verified
+      during this profile claim.
+    */
+    if (useExistingAccount) {
+      const authHeader = req.headers.authorization || "";
+
+      if (!authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({
+          error:
+            "Please sign in to your existing Stylegrades account before activating this profile.",
+        });
+      }
+
+      const accessToken = authHeader.slice(7).trim();
+
+      const {
+        data: existingAuthData,
+        error: existingAuthError,
+      } = await supabaseAdmin.auth.getUser(accessToken);
+
+      const existingUser = existingAuthData?.user;
+
+      if (existingAuthError || !existingUser) {
+        return res.status(401).json({
+          error:
+            "Your Stylegrades sign-in could not be verified. Please sign in again.",
+        });
+      }
+
+      const existingUserEmail = String(
+        existingUser.email || ""
+      )
+        .trim()
+        .toLowerCase();
+
+      if (existingUserEmail !== claimEmail) {
+        return res.status(403).json({
+          error:
+            "The signed-in Stylegrades account does not match the email address verified for this profile claim.",
+        });
+      }
+
+      const { data: linkedProfile } =
+        await supabaseAdmin
+          .from("stylists")
+          .select("id")
+          .eq("user_id", existingUser.id)
+          .neq("id", stylist.id)
+          .maybeSingle();
+
+      if (linkedProfile) {
+        return res.status(409).json({
+          error:
+            "This Stylegrades account is already connected to another professional profile.",
+        });
+      }
+
+      const { data: claimedProfile, error: claimError } =
+        await supabaseAdmin
+          .from("stylists")
+          .update({
+            user_id: existingUser.id,
+            email: claimEmail,
+            profile_source: "registry_claimed",
+            claimed_at: new Date().toISOString(),
+            status: "approved",
+            tier: "free",
+            tier_active: "free",
+            subscription_status: "active",
+            claim_activation_token: null,
+            claim_activation_expires_at: null,
+          })
+          .eq("id", stylist.id)
+          .eq("profile_source", "registry_unclaimed")
+          .eq("claim_admin_approved", true)
+          .eq("claim_email_verified", true)
+          .eq("claim_email", stylist.claim_email)
+          .is("claimed_at", null)
+          .is("user_id", null)
+          .select(
+            "id, full_name, profile_slug, profile_source, claimed_at, user_id, tier_active"
+          )
+          .single();
+
+      if (claimError || !claimedProfile) {
+        console.error(
+          "Existing-account profile claim failed:",
+          claimError
+        );
+
+        return res.status(409).json({
+          error:
+            "The profile could not be connected to your account. Please try again.",
+        });
+      }
+
+      return res.status(200).json({
+        ok: true,
+        message:
+          "Your Stylegrades profile has been connected to your existing account.",
+        profile: claimedProfile,
+      });
+    }  
+
+    /*
       The account email comes only from the email address that
       successfully completed the Stylegrades claim-verification
       process. The browser cannot substitute a different email.
@@ -143,9 +256,27 @@ export default async function handler(req, res) {
         createUserError
       );
 
+      const errorMessage = String(
+        createUserError?.message || ""
+      ).toLowerCase();
+
+      const existingAccount =
+        errorMessage.includes("already") ||
+        errorMessage.includes("registered") ||
+        errorMessage.includes("exists");
+
+      if (existingAccount) {
+        return res.status(409).json({
+          error:
+            "A Stylegrades account already exists for the email address verified with this profile claim.",
+          code: "EXISTING_AUTH_ACCOUNT",
+          claimEmail,
+        });
+      }
+
       return res.status(409).json({
         error:
-          "Stylegrades could not create this account. If you already have a Stylegrades login using this email, please contact Stylegrades.",
+          "Stylegrades could not create this account. Please try again. If the problem continues, please contact Stylegrades.",
       });
     }
 
