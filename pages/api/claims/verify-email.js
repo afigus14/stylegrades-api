@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     const { data: stylist, error: lookupError } = await supabase
       .from("stylists")
       .select(
-        "id, full_name, profile_slug, profile_source, claim_token, claim_token_expires_at, claim_email_verified"
+        "id, full_name, profile_slug, profile_source, claim_token, claim_token_expires_at, claim_email, claim_email_verified, city, state, license_number, license_type"
       )
       .eq("claim_token", token)
       .maybeSingle();
@@ -98,6 +98,41 @@ export default async function handler(req, res) {
       return res.status(500).json({
         error: "Unable to verify this profile claim.",
       });
+    }
+
+    // Notify the Stylegrades administrator that the verified
+    // profile claim is ready for review.
+    try {
+      const notificationResponse = await fetch(
+        "https://stylegrades-api.vercel.app/api/send-claim-notification",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            stylistName: stylist.full_name,
+            stylistEmail: stylist.claim_email,
+            profileSlug: stylist.profile_slug,
+            city: stylist.city,
+            state: stylist.state,
+            licenseNumber: stylist.license_number,
+            licenseType: stylist.license_type,
+          }),
+        }
+      );
+
+      if (!notificationResponse.ok) {
+        console.error(
+          "Claim notification request failed:",
+          notificationResponse.status
+        );
+      }
+    } catch (notificationError) {
+      console.error(
+        "Claim notification email error:",
+        notificationError
+      );
     }
 
     return res.status(200).json({
